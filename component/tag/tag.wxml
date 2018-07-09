@@ -1,0 +1,7 @@
+<button 
+  
+  class="btn"
+  size="mini" 
+  bindtap='destory'
+  style="background-color:{{color.backgroundColor}};color:{{color.frontColor}}"
+  >{{text}}</button>

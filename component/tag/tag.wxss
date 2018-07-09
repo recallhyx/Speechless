@@ -1,0 +1,8 @@
+.btn{
+  border-radius: 25px;
+  border: none;
+  margin: 10rpx;
+}
+.btn::after{
+  border: none;
+}

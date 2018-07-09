@@ -1,54 +1,78 @@
 //index.js
 //获取应用实例
+const util = require('../../utils/util.js')
+const PALETTE = require('../../config/palette.js')
 const app = getApp()
 
 Page({
   data: {
-    motto: 'Hello World',
-    userInfo: {},
-    hasUserInfo: false,
-    canIUse: wx.canIUse('button.open-type.getUserInfo')
+    animationData: {},
+    COLOR: {},
+    inputValue: '',
+    tagArray: [],
+    fromColor: '',
+    toColor: '',
   },
-  //事件处理函数
-  bindViewTap: function() {
-    wx.navigateTo({
-      url: '../logs/logs'
-    })
-  },
-  onLoad: function () {
-    if (app.globalData.userInfo) {
-      this.setData({
-        userInfo: app.globalData.userInfo,
-        hasUserInfo: true
-      })
-    } else if (this.data.canIUse){
-      // 由于 getUserInfo 是网络请求，可能会在 Page.onLoad 之后才返回
-      // 所以此处加入 callback 以防止这种情况
-      app.userInfoReadyCallback = res => {
-        this.setData({
-          userInfo: res.userInfo,
-          hasUserInfo: true
-        })
-      }
-    } else {
-      // 在没有 open-type=getUserInfo 版本的兼容处理
-      wx.getUserInfo({
-        success: res => {
-          app.globalData.userInfo = res.userInfo
-          this.setData({
-            userInfo: res.userInfo,
-            hasUserInfo: true
-          })
-        }
-      })
+  addTag: function (e){
+    if(!e.detail.value.trim()){
+      console.log('trim');
+      return;
     }
-  },
-  getUserInfo: function(e) {
-    console.log(e)
-    app.globalData.userInfo = e.detail.userInfo
+    if (this.data.tagArray.length >=8){
+      wx.showToast({
+        title: '最多8个关键字',
+        icon: 'none',
+        duration: 1500
+      })
+      return ;
+    }
+    this.data.tagArray.push({
+      text:e.detail.value,
+      index: this.data.tagArray.length+1,
+      color: this.data.COLOR[this.data.tagArray.length+1]
+    });
     this.setData({
-      userInfo: e.detail.userInfo,
-      hasUserInfo: true
+      tagArray: this.data.tagArray,
+      inputValue: '',
+      toColor: this.data.COLOR[this.data.tagArray.length].backgroundColor
     })
-  }
+
+
+  },
+  clear: function(){
+    this.data.tagArray = [];
+    this.setData({
+      tagArray: this.data.tagArray,
+      toColor: this.data.COLOR[0].backgroundColor
+    })
+  },
+  destoryTag: function(e){
+    let index = e.detail.index;
+    console.log(index,this.data.tagArray[index]);
+    for (var i = this.data.tagArray.length; i > index; i--) {
+      var temp = this.data.tagArray[i - 1].color;
+      this.data.tagArray[i - 1].color = this.data.tagArray[i - 2].color;
+      this.data.tagArray[i - 2].color = temp;
+      var tmp = this.data.tagArray[i-1].index;
+      this.data.tagArray[i - 1].index = this.data.tagArray[i - 2].index;
+      this.data.tagArray[i - 2].index = temp;
+    }
+    this.data.tagArray.splice(index-1,1);
+    this.setData({
+      tagArray: this.data.tagArray,
+      toColor: this.data.COLOR[this.data.tagArray.length].backgroundColor
+    })
+  },
+  onLoad: function () {    
+    this.data.COLOR = app.globalData.usedColor.palette;
+    let bgColor = app.globalData.usedColor.palette[0].backgroundColor;
+    this.data.fromColor = this.data.toColor = this.data.COLOR[0].backgroundColor;
+    console.log(bgColor);
+    this.setData({
+      pageBackgroundColor: '#ffffff',
+      fromColor: this.data.fromColor,
+      toColor: this.data.toColor,
+    });
+  },
+
 })

@@ -13,7 +13,18 @@ const formatNumber = n => {
   n = n.toString()
   return n[1] ? n : '0' + n
 }
+const setNavigationBarColor = (frontColor,backgroundColor) => {
+  wx.setNavigationBarColor({
+    frontColor: frontColor,
+    backgroundColor: backgroundColor,
+    animation: {
+      duration: 400,
+      timingFunc: 'easeInOut'
+    }
+  })
+}
 
 module.exports = {
-  formatTime: formatTime
+  formatTime: formatTime,
+  setNavigationBarColor: setNavigationBarColor,
 }

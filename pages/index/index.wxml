@@ -1,13 +1,36 @@
 <!--index.wxml-->
-<view class="container">
-  <view class="userinfo">
-    <button wx:if="{{!hasUserInfo && canIUse}}" open-type="getUserInfo" bindgetuserinfo="getUserInfo"> 获取头像昵称 </button>
-    <block wx:else>
-      <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
-      <text class="userinfo-nickname">{{userInfo.nickName}}</text>
-    </block>
+  <view class="btn-group" >
+      <tag 
+        
+        wx:for="{{tagArray}}" 
+        wx:for-index="idx" 
+        wx:for-item="item" 
+        wx:key="idx"
+        text='{{item.text}}'
+        color = '{{item.color}}'
+        index = '{{item.index}}'
+        bind:destory = 'destoryTag'
+      ></tag>
   </view>
-  <view class="usermotto">
-    <text class="user-motto">{{motto}}</text>
-  </view>
+<view class="container" style="background-color:{{pageBackgroundColor}}">
+ <input 
+          value="{{inputValue}}"
+          placeholder="关键词(最大长度5)" 
+          type="text" 
+          maxlength='5'
+          confirm-type='next'
+          cursor-spacing='10'
+          bindconfirm='addTag'
+          confirm-hold=true
+          ></input>
 </view>
+<view class='btn-func'>
+ 
+ <button 
+  class='btn'
+  style='background: linear-gradient(to bottom right, {{fromColor}} , {{toColor}});'
+  >确认</button>
+<button 
+  class='btn'
+  bindtap='clear'
+  >清除标签</button></view>
