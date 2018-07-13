@@ -10,9 +10,11 @@ Component({
       type: Number,
     }
   },
+
   methods: {
     destory(){
       this.triggerEvent('destory',{index:this.properties.index})
     },
   },
+
 })

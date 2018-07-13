@@ -63,6 +63,17 @@ Page({
       toColor: this.data.COLOR[this.data.tagArray.length].backgroundColor
     })
   },
+  query: function(){
+    if(this.data.tagArray.length === 0){
+      wx.showToast({
+        title: '您未添加关键词哦',
+        icon: 'none',
+        duration: 1500
+      })
+      return;
+    }
+    
+  },
   onLoad: function () {    
     this.data.COLOR = app.globalData.usedColor.palette;
     let bgColor = app.globalData.usedColor.palette[0].backgroundColor;

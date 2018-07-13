@@ -2,7 +2,14 @@
   border-radius: 25px;
   border: none;
   margin: 10rpx;
+  animation: scale 0.5s;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .btn::after{
   border: none;
+}
+
+@keyframes scale{
+  0% {transform: scale(0,0)}
+  50% {transform: scale(1.1,1.1)}
 }
